@@ -1,0 +1,86 @@
+{
+    "poppins": {
+        "300": "C:\\laragon\\www\\millat\\public\\assets\/fonts\/poppins_300_87f0a8a73c876e947643eb7d19bec0b7",
+        "normal": "C:\\laragon\\www\\millat\\public\\assets\/fonts\/poppins_normal_a62832bf75823019dc29c5a9c470d64d",
+        "500": "C:\\laragon\\www\\millat\\public\\assets\/fonts\/poppins_500_a885de0ea35a644243715bf64b6d1a65",
+        "600": "C:\\laragon\\www\\millat\\public\\assets\/fonts\/poppins_600_ca6698540fb485d7b756c91a54a37d8e",
+        "bold": "poppins_bold_87c49bf24d72f01a4af573680817521f"
+    },
+    "public sans": {
+        "300": "C:\\laragon\\www\\millat\\public\\assets\/fonts\/public_sans_300_e40291a1efaf35fadfb14addce7ab6fe",
+        "normal": "C:\\laragon\\www\\millat\\public\\assets\/fonts\/public_sans_normal_541b23c84069f88f13682c4de16653d2",
+        "500": "C:\\laragon\\www\\millat\\public\\assets\/fonts\/public_sans_500_409c652e5ddfb16fe604a2796364a682",
+        "600": "C:\\laragon\\www\\millat\\public\\assets\/fonts\/public_sans_600_f7b0486ca002dc2d2bb6210c153daef1",
+        "bold": "public_sans_bold_afade0e905cec59574bdb032b78d1a35"
+    },
+    "nunito": {
+        "300": "C:\\laragon\\www\\millat\\public\\assets\/fonts\/nunito_300_ed16c859231e9de60529ee8e2539295f",
+        "normal": "C:\\laragon\\www\\millat\\public\\assets\/fonts\/nunito_normal_ee99570c2d40db4ca7cb27ecfa07bd0e",
+        "500": "C:\\laragon\\www\\millat\\public\\assets\/fonts\/nunito_500_1337283c03afe8faf9193502488bd31d",
+        "600": "C:\\laragon\\www\\millat\\public\\assets\/fonts\/nunito_600_462968132f9bb0b300c9ac89cb99aa5d",
+        "bold": "nunito_bold_8878d120ae1cf02db589138e103b16c4"
+    },
+    "saira": {
+        "300": "C:\\laragon\\www\\millat\\public\\assets\/fonts\/saira_300_3c9185ef04756f1ebaf967bba8d83679",
+        "normal": "C:\\laragon\\www\\millat\\public\\assets\/fonts\/saira_normal_78639ca0262000b8e40d7cb3e2a203aa",
+        "500": "C:\\laragon\\www\\millat\\public\\assets\/fonts\/saira_500_5d32d6821a3789b2b126234612e11ba4",
+        "600": "C:\\laragon\\www\\millat\\public\\assets\/fonts\/saira_600_56c17af47500ed3ba64b50532c10e88e",
+        "bold": "saira_bold_b9d2d21b6960c7a1a5a08d9afa4b337f"
+    },
+    "outfit": {
+        "300": "C:\\laragon\\www\\millat\\public\\assets\/fonts\/outfit_300_aa7bbb813abdd624f7711842f96c48a7",
+        "normal": "C:\\laragon\\www\\millat\\public\\assets\/fonts\/outfit_normal_4c4beae9ee8ba86b6b3544a4ae9583a2",
+        "500": "C:\\laragon\\www\\millat\\public\\assets\/fonts\/outfit_500_9c7b15f5835e846e37fc472d14e10339",
+        "600": "C:\\laragon\\www\\millat\\public\\assets\/fonts\/outfit_600_45476b029db8737f6b73d8f1bd1272b8",
+        "bold": "outfit_bold_6ccba8ca533806e6a09b21b5090092f7"
+    },
+    "inter": {
+        "normal": "C:\\laragon\\www\\millat\\public\\assets\/fonts\/inter_normal_4f95092608a03c140dccd33606c19f31",
+        "500": "C:\\laragon\\www\\millat\\public\\assets\/fonts\/inter_500_3f435dc727a887d3a9c0ddd0afecf691",
+        "600": "C:\\laragon\\www\\millat\\public\\assets\/fonts\/inter_600_9bfe13c942a9c8fb0ff92d25ab822ed4",
+        "bold": "inter_bold_8e796d6a87340143ae66c4104836364f"
+    },
+    "open sans": {
+        "300": "C:\\laragon\\www\\millat\\public\\assets\/fonts\/open_sans_300_8513b9024ad211a10e857eba11f0f357",
+        "normal": "C:\\laragon\\www\\millat\\public\\assets\/fonts\/open_sans_normal_2bf6e8a03908d49a7fa7b1094b0c2804",
+        "500": "C:\\laragon\\www\\millat\\public\\assets\/fonts\/open_sans_500_663f11545dfeea65b44b2da12b5a66b1",
+        "600": "C:\\laragon\\www\\millat\\public\\assets\/fonts\/open_sans_600_94288badef373364367fbfb769e688ce",
+        "bold": "open_sans_bold_0e7196744e416eea97ecd5b9781a44c2"
+    },
+    "ibm plex sans": {
+        "300": "C:\\laragon\\www\\millat\\public\\assets\/fonts\/ibm_plex_sans_300_f30824237163a78589b0870a47e8762d",
+        "normal": "C:\\laragon\\www\\millat\\public\\assets\/fonts\/ibm_plex_sans_normal_4b2022158408614c1f0f15444bbf6a80",
+        "500": "C:\\laragon\\www\\millat\\public\\assets\/fonts\/ibm_plex_sans_500_819af649fc667789a5384e7ade01353c",
+        "600": "C:\\laragon\\www\\millat\\public\\assets\/fonts\/ibm_plex_sans_600_45d02e65340cf872d07a52e63fdce8f9",
+        "bold": "ibm_plex_sans_bold_023dcde48227d10bfb05cc7c8e3ae824"
+    },
+    "montserrat": {
+        "normal": "C:\\laragon\\www\\millat\\public\\assets\/fonts\/montserrat_normal_00833106404dc8458cdfb436c759f23d",
+        "500": "C:\\laragon\\www\\millat\\public\\assets\/fonts\/montserrat_500_1236ec90acb329158f494b3fcb44327e",
+        "600": "C:\\laragon\\www\\millat\\public\\assets\/fonts\/montserrat_600_485729d96603ccf9729bf58de2db0851",
+        "bold": "montserrat_bold_5da7810bf4e960efe50d20e94a894069"
+    },
+    "rubik": {
+        "300": "C:\\laragon\\www\\millat\\public\\assets\/fonts\/rubik_300_82a112de692d08b55c2b11842e5a67fc",
+        "normal": "C:\\laragon\\www\\millat\\public\\assets\/fonts\/rubik_normal_b6ec54c36a02fb811d72194115ec42db",
+        "500": "C:\\laragon\\www\\millat\\public\\assets\/fonts\/rubik_500_c5ab0af2d954c4140f26e728dad090b3",
+        "600": "C:\\laragon\\www\\millat\\public\\assets\/fonts\/rubik_600_5d61a1f1e601158e12a385b1e07b6a27",
+        "bold": "rubik_bold_98a50ec8225be60b521143fc843a3c06"
+    },
+    "jost": {
+        "300": "C:\\laragon\\www\\millat\\public\\assets\/fonts\/jost_300_7478c057849c61462d94379aa5a558f5",
+        "normal": "C:\\laragon\\www\\millat\\public\\assets\/fonts\/jost_normal_aef524d136c3a23f433c46e7508982f2",
+        "500": "C:\\laragon\\www\\millat\\public\\assets\/fonts\/jost_500_250538118daecbf8b86ffa79c62a0839",
+        "600": "C:\\laragon\\www\\millat\\public\\assets\/fonts\/jost_600_019fbbbb0de25d6a87e091f71936cbfa",
+        "bold": "jost_bold_414ec82b41b0f3532ec4a0dfa41b0f17"
+    },
+    "roboto": {
+        "300": "C:\\laragon\\www\\millat\\public\\assets\/fonts\/roboto_300_cc4e76f50b66ce9ac2b3d8a19b5f276d",
+        "normal": "C:\\laragon\\www\\millat\\public\\assets\/fonts\/roboto_normal_e794639d941c5ae548beb5b53f96d8e5",
+        "500": "C:\\laragon\\www\\millat\\public\\assets\/fonts\/roboto_500_64eaa50e2bf35fe15f6cb55ada83a64e",
+        "bold": "roboto_bold_9420b318fa9b620e67bbd96e8ff529e0"
+    },
+    "noto nastaliq urdu": {
+        "normal": "noto_nastaliq_urdu_normal_aa6ef28bec373132daedf34dc7f62238"
+    }
+}
