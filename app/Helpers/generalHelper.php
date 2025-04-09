@@ -125,3 +125,19 @@ function productStockValue($id)
     return $price * $stock;
 }
 
+function projectNameAuth()
+{
+    return "Mobile Shop";
+}
+
+function projectNameHeader()
+{
+    return "Mobile Shop";
+}
+
+function projectNameShort()
+{
+    return "MS";
+}
+
+

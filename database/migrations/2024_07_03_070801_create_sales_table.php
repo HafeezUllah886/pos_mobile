@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('sales', function (Blueprint $table) {
             $table->id();
             $table->foreignId('customerID')->constrained('accounts', 'id');
+            $table->string('customerName')->nullable();
             $table->date('date');
             $table->float('discount')->default(0);
             $table->float('dc')->default(0);

@@ -42,7 +42,7 @@
                         <div class="text-center mt-sm-5 mb-4 text-white-50">
                             <div>
                                 <a href="index.html" class="d-inline-block auth-logo">
-                                    <h1 class="text-white">DELUXE CABLES QUETTA</h1>
+                                    <h1 class="text-white">{{ projectNameHeader() }}</h1>
                                 </a>
                             </div>
                             <p class="mt-3 fs-15 fw-medium">Business Managment System</p>

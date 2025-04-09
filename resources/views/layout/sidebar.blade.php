@@ -4,19 +4,19 @@
         <!-- Dark Logo-->
         <a href="{{route('dashboard')}}" class="logo logo-dark">
             <span class="logo-sm">
-                <h3 class="text-white">DC</h3>
+                <h3 class="text-white">{{ projectNameShort() }}</h3>
             </span>
             <span class="logo-lg">
-                <h3 class="text-white mt-3">DELUXE CABLE</h3>
+                <h3 class="text-white mt-3">{{ projectNameHeader() }}</h3>
             </span>
         </a>
         <!-- Light Logo-->
         <a href="{{route('dashboard')}}" class="logo logo-light">
             <span class="logo-sm">
-                <h3 class="text-white">DC</h3>
+                <h3 class="text-white">{{ projectNameShort() }}</h3>
             </span>
             <span class="logo-lg">
-                <h3 class="text-white mt-3">DELUXE CABLE</h3>
+                <h3 class="text-white mt-3">{{ projectNameHeader() }}</h3>
             </span>
         </a>
         <button type="button" class="btn btn-sm p-0 fs-20 header-item float-end btn-vertical-sm-hover"
@@ -150,8 +150,8 @@
                                     List </a>
                             </li>
                             <li class="nav-item">
-                                <a href="{{ route('categories.index') }}" class="nav-link" data-key="t-chat">Products
-                                    Categories </a>
+                                <a href="{{ route('categories.index') }}" class="nav-link" data-key="t-chat">
+                                    Brands </a>
                             </li>
                            {{--  <li class="nav-item">
                                 <a href="{{ route('units.index') }}" class="nav-link" data-key="t-chat"> Units </a>
@@ -230,7 +230,7 @@
                         <i class="ri-apps-2-line"></i> <span data-key="t-apps">Todos</span>
                     </a>
                 </li>
-                <li class="nav-item">
+               {{--  <li class="nav-item">
                     <a class="nav-link menu-link" href="#warehouses" data-bs-toggle="collapse" role="button"
                         aria-expanded="false" aria-controls="sidebarApps">
                         <i class="ri-apps-2-line"></i> <span data-key="t-apps">Warehouses</span>
@@ -243,7 +243,7 @@
                             </li>
                         </ul>
                     </div>
-                </li>
+                </li> --}}
             </ul>
         </div>
         <!-- Sidebar -->

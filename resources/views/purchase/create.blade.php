@@ -38,56 +38,35 @@
 
                                 <table class="table table-striped table-hover">
                                     <thead>
-                                        <th width="30%">Item</th>
-                                        <th width="10%" class="text-center">Warehouse</th>
-                                        <th class="text-center">P-Price</th>
-                                        <th class="text-center">S-Price</th>
-                                        <th class="text-center">Qty</th>
-                                        <th class="text-end">Amount</th>
+                                        <th >Product</th>
+                                        <th class="text-center">IMEI Number</th>
+                                        <th width="20%" class="text-center">Price</th>
                                         <th></th>
                                     </thead>
                                     <tbody id="products_list"></tbody>
                                     <tfoot>
                                         <tr>
-                                            <th colspan="5" class="text-end">Total</th>
+                                            <th colspan="2" class="text-end">Total</th>
                                             <th class="text-end" id="totalAmount">0.00</th>
                                             <th></th>
                                         </tr>
                                     </tfoot>
                                 </table>
                             </div>
-                            <div class="col-3">
+                            <div class="col-2">
                                 <div class="form-group">
                                     <label for="comp">Purchase Inv No.</label>
                                     <input type="text" name="inv" id="inv" class="form-control">
                                 </div>
                             </div>
-                            <div class="col-3">
-                                <div class="form-group">
-                                    <label for="discount">Discount</label>
-                                    <input type="number" name="discount" oninput="updateTotal()" id="discount" step="any" value="0" class="form-control no_zero">
-                                </div>
-                            </div>
-                            <div class="col-3">
-                                <div class="form-group">
-                                    <label for="dc">Delivery Charges</label>
-                                    <input type="number" name="dc" id="dc" oninput="updateTotal()" min="0" step="any" value="0" class="form-control no_zero">
-                                </div>
-                            </div>
-                            <div class="col-3">
-                                <div class="form-group">
-                                    <label for="net">Net Amount</label>
-                                    <input type="number" name="net" id="net" step="any" readonly value="0" class="form-control">
-                                </div>
-                            </div>
-                            <div class="col-3 mt-2">
+                            <div class="col-2">
                                 <div class="form-group">
                                     <label for="date">Date</label>
                                     <input type="date" name="date" id="date" value="{{ date('Y-m-d') }}"
                                         class="form-control">
                                 </div>
                             </div>
-                            <div class="col-3 mt-2">
+                            <div class="col-3">
                                 <div class="form-group">
                                     <label for="vendor">Vendor</label>
                                     <select name="vendorID" id="vendorID" class="selectize1">
@@ -96,13 +75,13 @@
                                         @endforeach
                                     </select>
                                 </div>
-                                <div class="form-group vendorName mt-2">
+                                <div class="form-group vendorNam2">
                                     <label for="vendorName">Name</label>
                                     <input type="text" name="vendorName" id="vendorName" class="form-control">
                                 </div>
                             </div>
 
-                            <div class="col-3 mt-2">
+                            <div class="col-3">
                                 <div class="form-group">
                                     <label for="account">Account</label>
                                     <select name="accountID" id="account" class="selectize1">
@@ -112,7 +91,7 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-3 mt-2">
+                            <div class="col-2">
                                 <div class="form-group">
                                     <label for="status">Payment Status</label>
                                     <select name="status" id="status1" class="form-control">
@@ -213,76 +192,37 @@
 
             },
         });
-        var warehouses = @json($warehouses);
-        var existingProducts = [];
 
         function getSingleProduct(id) {
             $.ajax({
                 url: "{{ url('purchases/getproduct/') }}/" + id,
                 method: "GET",
                 success: function(product) {
-                    let found = $.grep(existingProducts, function(element) {
-                        return element === product.id;
-                    });
-                    if (found.length > 0) {
-
-                    } else {
-
                         var id = product.id;
                         var html = '<tr id="row_' + id + '">';
                         html += '<td class="no-padding">' + product.name + '</td>';
-                        html += '<td class="no-padding"><select name="warehouse[]" class="form-control text-center no-padding" id="warehouse_' + id + '">';
-                            warehouses.forEach(function(warehouse) {
-                                html += '<option value="' + warehouse.id + '" >' + warehouse.name + '</option>';
-                            });
-                        html += '</select></td>';
-                        html += '<td class="no-padding"><input type="number" name="pprice[]" oninput="updateChanges(' + id + ')" step="any" value="'+product.pprice+'" min="1" class="form-control text-center no-padding" id="pprice_' + id + '"></td>';
-                        html += '<td class="no-padding"><input type="number" name="price[]" step="any" value="'+product.price+'" min="0" class="form-control text-center no-padding" id="price_' + id + '"></td>';
-                        html += '<td class="no-padding"><input type="number" name="qty[]" oninput="updateChanges(' + id + ')" min="0" step="any" value="0" class="form-control text-center no-padding" id="qty_' + id + '"></td>';
-                        html += '<td class="no-padding"><input type="number" name="amount[]" min="0.1" readonly required step="any" value="1" class="form-control text-center no-padding" id="amount_' + id + '"></td>';
-                        html += '<td class="no-padding"> <span class="btn btn-sm btn-danger" onclick="deleteRow('+id+')">X</span> </td>';
+                        html += '<td class="no-padding"><input type="text" name="imei[]" class="form-control text-center no-padding"></td>';
+                        html += '<td class="no-padding"><input type="number" name="price[]" oninput="updateTotal()" step="any" value="'+product.pprice+'" min="1" class="form-control text-center no-padding price"></td>';
+                        html += '<td class="no-padding"><span class="btn btn-sm btn-danger" onclick="deleteRow('+id+')">X</span> </td>';
                         html += '<input type="hidden" name="id[]" value="' + id + '">';
                         html += '</tr>';
                         $("#products_list").prepend(html);
-                        existingProducts.push(id);
-                        updateChanges(id);
+                        updateTotal();
                     }
-                }
             });
-        }
-
-        function updateChanges(id) {
-            var qty = parseFloat($('#qty_' + id).val());
-            var pprice = parseFloat($('#pprice_' + id).val());
-
-            var amount = qty * pprice;
-            $("#amount_"+id).val(amount.toFixed(2));
-            updateTotal();
         }
 
         function updateTotal() {
             var total = 0;
-            $("input[id^='amount_']").each(function() {
-                var inputId = $(this).attr('id');
-                var inputValue = $(this).val();
-                total += parseFloat(inputValue);
-            });
+            $(".price").each(function() {
+    var inputValue = $(this).val();
+    total += parseFloat(inputValue) || 0;
+});
 
             $("#totalAmount").html(total.toFixed(2));
-
-
-            var discount = parseFloat($("#discount").val());
-            var dc = parseFloat($("#dc").val());
-
-            var net = (total + dc) - discount;
-
-            $("#net").val(net.toFixed(2));
         }
 
         function deleteRow(id) {
-            existingProducts = $.grep(existingProducts, function(value) {
-                return value !== id;
-            });
             $('#row_'+id).remove();
             updateTotal();
         }
@@ -356,6 +296,17 @@
     $("#vendorID").on("change", function(){
         checkAccount();
     });
+
+    $(document).ready(function() {
+    // Prevent form submission on Enter key
+    $('form').on('keydown', function(event) {
+        if (event.keyCode == 13 && !$(event.target).is('textarea')) {
+            event.preventDefault();
+            return false;
+        }
+    });
+
+});
 
     </script>
      @foreach ($products as $product)

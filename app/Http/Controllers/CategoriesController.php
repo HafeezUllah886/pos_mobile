@@ -32,7 +32,7 @@ class CategoriesController extends Controller
     public function store(Request $request)
     {
         categories::create($request->all());
-        return back()->with('msg', 'Category Created');
+        return back()->with('msg', 'Brand Created');
     }
 
     /**
@@ -57,7 +57,7 @@ class CategoriesController extends Controller
     public function update(Request $request, $id)
     {
         categories::find($id)->update($request->all());
-        return back()->with('msg', 'Category Updated');
+        return back()->with('msg', 'Brand Updated');
     }
 
     /**

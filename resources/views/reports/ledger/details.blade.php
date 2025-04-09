@@ -11,7 +11,7 @@
                             <div class="card-header border-bottom-dashed p-4">
                                 <div class="d-flex">
                                     <div class="flex-grow-1">
-                                        <h1>DELUXE CABLES QUETTA</h1>
+                                        <h1>{{ projectNameHeader() }}</h1>
                                     </div>
                                     <div class="flex-shrink-0 mt-sm-0 mt-3">
                                         <h3>Ledger Report</h3>

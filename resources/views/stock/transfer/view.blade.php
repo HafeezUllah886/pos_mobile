@@ -11,12 +11,8 @@
                             <div class="card-header border-bottom-dashed p-4">
                                 <div class="d-flex">
                                     <div class="flex-grow-1">
-                                        <h1>MILLAT MACHINERY & SOLAR AGENCY</h1>
-                                        <div class="mt-sm-5 mt-4">
-                                            <h6 class="text-muted text-uppercase fw-semibold">Industrial Area, Sirki Road, Quetta</h6>
-                                            <p class="text-muted mb-1" id="address-details">NTN: 2645388-6</p>
-                                            <p class="text-muted mb-0" id="zip-code"><span>0331-8358638 | </span> jaffarqta92@gmail.com</p>
-                                        </div>
+                                        <h1>{{ projectNameHeader() }}</h1>
+                                       
                                     </div>
                                     <div class="flex-shrink-0 mt-sm-0 mt-3">
                                         <h3>Stock Transfer</h3>

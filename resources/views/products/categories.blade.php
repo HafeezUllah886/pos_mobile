@@ -4,14 +4,14 @@
        <div class="col-12">
               <div class="card">
                      <div class="card-header d-flex justify-content-between">
-                            <h3>Product Categories</h3>
+                            <h3>Product Brand</h3>
                             <button type="button" class="btn btn-primary " data-bs-toggle="modal" data-bs-target="#new">Create New</button>
                      </div>
                      <div class="card-body">
                             <table class="table">
                                    <thead>
                                           <th>#</th>
-                                          <th>Category</th>
+                                          <th>Brand</th>
                                           <th>Action</th>
                                    </thead>
                                    <tbody>
@@ -27,7 +27,7 @@
                                                         <div class="modal-dialog">
                                                             <div class="modal-content">
                                                                 <div class="modal-header">
-                                                                    <h5 class="modal-title" id="myModalLabel">Edit Category</h5>
+                                                                    <h5 class="modal-title" id="myModalLabel">Edit Brand</h5>
                                                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"> </button>
                                                                 </div>
                                                                 <form action="{{ route('categories.update', $cat->id) }}" method="Post">
@@ -60,7 +60,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="myModalLabel">Create New Category</h5>
+                <h5 class="modal-title" id="myModalLabel">Create New Brand</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"> </button>
             </div>
             <form action="{{ route('categories.store') }}" method="post">

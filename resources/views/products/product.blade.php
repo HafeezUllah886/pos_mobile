@@ -23,7 +23,7 @@
                         <thead>
                             <th>#</th>
                             <th>Name</th>
-                            <th>Category</th>
+                            <th>Brand</th>
                             <th>Purchase Price</th>
                             <th>Sale Price</th>
                             <th>Default</th>
@@ -63,7 +63,7 @@
                                                             class="form-control">
                                                     </div>
                                                     <div class="form-group mt-2">
-                                                        <label for="catID">Category</label>
+                                                        <label for="catID">Brand</label>
                                                        <select name="catID" id="catID" class="form-control">
                                                         @foreach ($cats as $cat)
                                                             <option value="{{$cat->id}}" @selected($cat->id == $item->catID)>{{$cat->name}}</option>
@@ -132,7 +132,7 @@
                             <input type="text" name="name" required id="name" class="form-control">
                         </div>
                         <div class="form-group mt-2">
-                            <label for="catID">Category</label>
+                            <label for="catID">Brand</label>
                            <select name="catID" id="catID" class="form-control">
                             @foreach ($cats as $cat)
                                 <option value="{{$cat->id}}">{{$cat->name}}</option>
