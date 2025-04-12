@@ -16,8 +16,6 @@ return new class extends Migration
             $table->foreignId('customerID')->constrained('accounts', 'id');
             $table->string('customerName')->nullable();
             $table->date('date');
-            $table->float('discount')->default(0);
-            $table->float('dc')->default(0);
             $table->float('total')->default(0);
             $table->text('notes')->nullable();
             $table->bigInteger('refID');

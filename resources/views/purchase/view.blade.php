@@ -6,8 +6,6 @@
                     <div class="row">
                         <div class="col-lg-12">
                             <div class="hstack gap-2 justify-content-end d-print-none p-2 mt-4">
-                                <a href="{{url('purchases/pdf/')}}/{{$purchase->id}}" class="btn btn-info ml-4"><i class="ri-file-line mr-4"></i> Generate PDF</a>
-                                <a href="https://web.whatsapp.com/" target="_blank" class="btn btn-success ml-4"><i class="ri-whatsapp-line mr-4"></i> Whatsapp</a>
                                 <a href="javascript:window.print()" class="btn btn-success ml-4"><i class="ri-printer-line mr-4"></i> Print</a>
                             </div>
                             <div class="card-header border-bottom-dashed p-4">
@@ -63,11 +61,8 @@
                                                     <tr class="table-active">
                                                         <th scope="col" style="width: 50px;">#</th>
                                                         <th scope="col" class="text-start">Product</th>
-                                                        <th scope="col" class="text-start">Warehouse</th>
-                                                        <th scope="col" class="text-end">P-Price</th>
-                                                        <th scope="col" class="text-end">S-Price</th>
-                                                        <th scope="col" class="text-end">Qty</th>
-                                                        <th scope="col" class="text-end">Amount</th>
+                                                        <th scope="col" class="text-end">IMEI</th>
+                                                        <th scope="col" class="text-end">Price</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody id="products-list">
@@ -75,11 +70,8 @@
                                                        <tr>
                                                         <td class="p-1 m-1">{{$key+1}}</td>
                                                         <td class="text-start p-1 m-1">{{$product->product->name}}</td>
-                                                        <td class="text-start p-1 m-1">{{$product->warehouse->name}}</td>
-                                                        <td class="text-end p-1 m-1">{{number_format($product->pprice,2)}}</td>
+                                                        <td class="text-end p-1 m-1">{{$product->imei}}</td>
                                                         <td class="text-end p-1 m-1">{{number_format($product->price,2)}}</td>
-                                                        <td class="text-end p-1 m-1">{{number_format($product->qty)}}</td>
-                                                        <td class="text-end p-1 m-1">{{number_format($product->amount,2)}}</td>
 
                                                        </tr>
                                                    @endforeach
@@ -91,28 +83,10 @@
                                 <div class="row">
                                     <div class="col-8"></div>
                                     <div class="col-4">
-                                        @php
-                                            $amount = $purchase->details->sum('amount');
-                                            $discount = $purchase->discount;
-                                            $dc = $purchase->dc;
-                                            $net = ($amount + $dc) - $discount;
-                                        @endphp
                                         <table class="table">
                                             <tr>
                                                 <th class="text-end p-1 m-1">Total</th>
-                                                <th class="text-end p-1 m-1">{{number_format($amount, 2)}}</th>
-                                            </tr>
-                                            <tr>
-                                                <th class="text-end p-1 m-1">Discount</th>
-                                                <th class="text-end p-1 m-1">{{number_format($discount, 2)}}</th>
-                                            </tr>
-                                            <tr>
-                                                <th class="text-end p-1 m-1">Delivery Charges</th>
-                                                <th class="text-end p-1 m-1">{{number_format($dc, 2)}}</th>
-                                            </tr>
-                                            <tr>
-                                                <th class="text-end p-1 m-1">Net Bill </th>
-                                                <th class="text-end p-1 m-1">{{number_format($net, 2)}}</th>
+                                                <th class="text-end p-1 m-1">{{number_format($purchase->details->sum('price'), 2)}}</th>
                                             </tr>
                                         </table>
                                     </div>

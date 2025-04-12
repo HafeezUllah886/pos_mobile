@@ -67,8 +67,8 @@ function avgSalePrice($from, $to, $id)
     {
         $sales->whereBetween('date', [$from, $to]);
     }
-    $sales_amount = $sales->sum('amount');
-    $sales_qty = $sales->sum('qty');
+    $sales_amount = $sales->sum('price');
+    $sales_qty = $sales->count();
 
     if($sales_qty > 0)
     {
@@ -89,8 +89,8 @@ function avgPurchasePrice($from, $to, $id)
     {
         $purchases->whereBetween('date', [$from, $to]);
     }
-    $purchase_amount = $purchases->sum('amount');
-    $purchase_qty = $purchases->sum('qty');
+    $purchase_amount = $purchases->sum('price');
+    $purchase_qty = $purchases->count();
 
     if($purchase_qty > 0)
     {
@@ -123,6 +123,21 @@ function productStockValue($id)
     $price = avgPurchasePrice('all', 'all', $id);
 
     return $price * $stock;
+}
+
+function masked($value)
+{
+    
+    $length = strlen($value);
+
+    if ($length > 10) {
+        $masked = substr($value, 0, 5) . str_repeat('*', $length - 10) . substr($value, -5);
+    } else {
+        // If the value is short, just show it as is or mask fully
+        $masked = str_repeat('*', $length);
+    }
+
+    return $masked;
 }
 
 function projectNameAuth()

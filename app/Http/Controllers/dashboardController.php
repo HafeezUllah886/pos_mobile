@@ -56,8 +56,8 @@ class dashboardController extends Controller
                 foreach($products as $product)
                 {
                     $purchases = purchase_details::where('productID', $product->id)->whereBetween('date', [$first, $last]);
-                    $purchases_amount = $purchases->sum('amount');
-                    $purchases_qty = $purchases->sum('qty');
+                    $purchases_amount = $purchases->sum('price');
+                    $purchases_qty = $purchases->count();
                     $purchase_qty = $purchases_qty;
                     if($purchase_qty > 0)
                     {
@@ -70,8 +70,8 @@ class dashboardController extends Controller
 
 
                     $sales1 = sale_details::where('productID', $product->id)->whereBetween('date', [$first, $last]);
-                    $sales_amount = $sales1->sum('amount');
-                    $sales_qty = $sales1->sum('qty');
+                    $sales_amount = $sales1->sum('price');
+                    $sales_qty = $sales1->count();
 
                     if($sales_qty > 0)
                     {
@@ -98,8 +98,9 @@ class dashboardController extends Controller
 
             /// Top five products
 
-            $topProducts = products::withSum('saleDetails', 'qty')->withSum('saleDetails', 'amount')
-            ->orderByDesc('sale_details_sum_qty')
+            $topProducts = products::withCount('saleDetails')
+            ->withSum('saleDetails', 'price')
+            ->orderByDesc('sale_details_count')
             ->take(5)
             ->get();
 
@@ -107,10 +108,10 @@ class dashboardController extends Controller
 
             foreach($topProducts as $product)
             {
-                $stock = getStock($product->id);
+                $stock = purchase_details::where('productID', $product->id)->where('status', 'Available')->count();
                 $price = avgSalePrice('all', 'all', $product->id);
 
-                $topProductsArray [] = ['name' => $product->name, 'price' => $price, 'stock' => $stock, 'amount' => $product->sale_details_sum_amount, 'sold' => $product->sale_details_sum_qty];
+                $topProductsArray [] = ['name' => $product->name, 'price' => $price, 'stock' => $stock, 'amount' => $product->sale_details_sum_price, 'sold' => $product->sale_details_count];
             }
 
             /// Top Customers

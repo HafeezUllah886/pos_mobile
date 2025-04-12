@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\DB;
 
 function totalSales()
 {
-    return $sales = sale_details::sum('amount');
+    return $sales = sale_details::sum('price');
 }
 
 function totalPurchases()

@@ -27,7 +27,7 @@
                                     <select name="product" class="selectize" id="product">
                                         <option value=""></option>
                                         @foreach ($products as $product)
-                                            <option value="{{ $product->id }}">{{ $product->name }}</option>
+                                            <option value="{{ $product->id }}">{{ $product->product->name }} | {{ $product->imei }}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -36,42 +36,21 @@
 
                                 <table class="table table-striped table-hover">
                                     <thead>
-                                        <th width="20%">Product</th>
-                                        <th class="text-center">Warehouse</th>
-                                        <th class="text-center">Qty</th>
-                                        <th class="text-center">Price</th>
-                                        <th class="text-center">Amount</th>
+                                        <th>Product</th>
+                                        <th class="text-center" >IMEI</th>
+                                        <th width="20%" class="text-center">Price</th>
                                         <th></th>
                                     </thead>
                                     <tbody id="products_list"></tbody>
                                     <tfoot>
                                         <tr>
-                                            <th colspan="4" class="text-end">Total</th>
+                                            <th colspan="2" class="text-end">Total</th>
                                             <th class="text-end" id="totalAmount">0.00</th>
                                         </tr>
                                     </tfoot>
                                 </table>
                             </div>
-                            <div class="col-3"></div>
-                            <div class="col-3">
-                                <div class="form-group">
-                                    <label for="discount">Discount</label>
-                                    <input type="number" name="discount" oninput="updateTotal()" id="discount" step="any" value="0" class="form-control no_zero">
-                                </div>
-                            </div>
-                            <div class="col-3">
-                                <div class="form-group">
-                                    <label for="dc">Delivery Charges</label>
-                                    <input type="number" name="dc" id="dc" oninput="updateTotal()" min="0" step="any" value="0" class="form-control no_zero">
-                                </div>
-                            </div>
-                            <div class="col-3">
-                                <div class="form-group">
-                                    <label for="net">Net Amount</label>
-                                    <input type="number" name="net" id="net" step="any" readonly value="0" class="form-control">
-                                </div>
-                            </div>
-                            <div class="col-3 mt-2">
+                            <div class="col-2 mt-2">
                                 <div class="form-group">
                                     <label for="date">Date</label>
                                     <input type="date" name="date" id="date" value="{{ date('Y-m-d') }}"
@@ -103,7 +82,7 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-3 mt-2">
+                            <div class="col-2 mt-2">
                                 <div class="form-group">
                                     <label for="status">Payment Status</label>
                                     <select name="status" id="status1" class="form-control">
@@ -153,7 +132,7 @@
                                 <input type="text" name="name" required id="name" class="form-control">
                             </div>
                             <div class="form-group mt-2">
-                                <label for="catID">Category</label>
+                                <label for="catID">Brand</label>
                                <select name="catID" id="catID" class="form-control">
                                 @foreach ($cats as $cat)
                                     <option value="{{$cat->id}}">{{$cat->name}}</option>
@@ -218,9 +197,7 @@
 
             },
         });
-        var warehouses = @json($warehouses);
         var existingProducts = [];
-
         function getSingleProduct(id) {
             $.ajax({
                 url: "{{ url('sales/getproduct/') }}/" + id,
@@ -230,58 +207,31 @@
                         return element === product.id;
                     });
                     if (found.length > 0) {
-
                     } else {
                         var id = product.id;
                         var html = '<tr id="row_' + id + '">';
-                        html += '<td class="no-padding">' + product.name + '</td>';
-                        html += '<td class="no-padding"><select name="warehouse[]" class="form-control text-center no-padding" id="warehouse_' + id + '">';
-                            warehouses.forEach(function(warehouse) {
-                                html += '<option value="' + warehouse.id + '" >' + warehouse.name + '</option>';
-                            });
-                        html += '</select></td>';
-                        html += '<td class="no-padding"><input type="number" name="qty[]" oninput="updateChanges(' + id +')" min="0" step="any" value="0" class="form-control text-center" id="qty_' + id + '"></div></td>';
-                        html += '<td class="no-padding"><input type="number" name="price[]" oninput="updateChanges(' + id + ')" step="any" value="'+product.price+'" min="1" class="form-control text-center" id="price_' + id + '"></td>';
-                        html += '<td class="no-padding"><input type="number" name="amount[]" readonly step="any" value="0.00" min="0" class="form-control text-center" id="amount_' + id + '"></td>';
+                        html += '<td class="no-padding">' + product.product.name + '</td>';
+                        html += '<td class="no-padding"><input type="text" name="imei[]" value="'+product.imei+'" readonly class="form-control text-center" id="imei_' + id + '"></div></td>';
+                        html += '<td class="no-padding"><input type="number" name="price[]" oninput="updateTotal(' + id + ')" step="any" value="'+product.product.price+'" min="1" class="form-control text-center price" id="price_' + id + '"></td>';
                         html += '<td> <span class="btn btn-sm btn-danger" onclick="deleteRow('+id+')">X</span> </td>';
                         html += '<input type="hidden" name="id[]" value="' + id + '">';
-                        html += '<input type="hidden" id="stock_'+id+'" value="' + product.stock + '">';
                         html += '</tr>';
                         $("#products_list").prepend(html);
-                        updateChanges(id);
+                        updateTotal();
                         existingProducts.push(id);
                     }
                 }
             });
         }
 
-        function updateChanges(id) {
-            var qty = $('#qty_' + id).val();
-            var price = $('#price_' + id).val();
-
-            var amount = price * qty;
-
-            $("#amount_"+id).val(amount);
-
-            updateTotal();
-        }
-
         function updateTotal() {
-            var totalAmount = 0;
-            $("input[id^='amount_']").each(function() {
-                var inputId = $(this).attr('id');
-                var inputValue = $(this).val();
-                totalAmount += parseFloat(inputValue);
+            var total = 0;
+            $(".price").each(function() {
+            var inputValue = $(this).val();
+            total += parseFloat(inputValue) || 0;
             });
-            $("#totalAmount").html(totalAmount.toFixed(2));
 
-            var discount = parseFloat($("#discount").val());
-            var dc = parseFloat($("#dc").val());
-
-            var net = (totalAmount + dc) - discount;
-
-            $("#net").val(net);
-
+            $("#totalAmount").html(total.toFixed(2));
         }
 
         function deleteRow(id) {

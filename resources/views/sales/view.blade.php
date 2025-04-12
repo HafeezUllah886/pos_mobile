@@ -6,8 +6,8 @@
                     <div class="row">
                         <div class="col-lg-12">
                             <div class="hstack gap-2 justify-content-end d-print-none p-2 mt-4">
-                                <a href="{{url('sales/pdf/')}}/{{$sale->id}}" class="btn btn-info ml-4"><i class="ri-file-line mr-4"></i> Generate PDF</a>
-                                <a href="https://web.whatsapp.com/" target="_blank" class="btn btn-success ml-4"><i class="ri-whatsapp-line mr-4"></i> Whatsapp</a>
+                                {{-- <a href="{{url('sales/pdf/')}}/{{$sale->id}}" class="btn btn-info ml-4"><i class="ri-file-line mr-4"></i> Generate PDF</a>
+                                <a href="https://web.whatsapp.com/" target="_blank" class="btn btn-success ml-4"><i class="ri-whatsapp-line mr-4"></i> Whatsapp</a> --}}
                                 <a href="javascript:window.print()" class="btn btn-primary ml-4"><i class="ri-printer-line mr-4"></i> Print</a>
                             </div>
                             <div class="card-header border-bottom-dashed p-4">
@@ -49,10 +49,9 @@
                                         <thead>
                                             <tr class="table-active">
                                                 <th scope="col" style="width: 50px;">#</th>
-                                                <th scope="col" class="text-start">Product</th>
-                                                <th scope="col" class="text-end">Qty</th>
+                                                <th scope="col" class="text-start">Description</th>
+                                                <th scope="col" class="text-end">IMEI</th>
                                                 <th scope="col" class="text-end">Price</th>
-                                                <th scope="col" class="text-end">Amount</th>
                                             </tr>
                                         </thead>
                                         <tbody id="products-list" style="font-weight: bolder">
@@ -60,52 +59,17 @@
                                                <tr class="border-1 border-dark">
                                                 <td class="m-1 p-1 border-1 border-dark">{{$key+1}}</td>
                                                 <td class="text-start m-1 p-1 border-1 border-dark">{{$product->product->name}}</td>
-                                                <td class="text-end m-1 p-1 border-1 border-dark">{{number_format($product->qty)}}</td>
+                                                <td class="text-end m-1 p-1 border-1 border-dark d-print-none">{{$product->imei}}</td>
+                                                <td class="text-end m-1 p-1 border-1 border-dark d-none d-print-block">{{masked($product->imei)}}</td>
                                                 <td class="text-end m-1 p-1 border-1 border-dark">{{number_format($product->price, 2)}}</td>
-                                                <td class="text-end m-1 p-1 border-1 border-dark">{{number_format($product->amount, 2)}}</td>
                                                </tr>
                                            @endforeach
                                         </tbody>
                                         <tfoot style="font-weight: bolder">
-                                            @php
-                                                $due = $sale->total - $sale->payments->sum('amount');
-                                                $paid = $sale->payments->sum('amount');
-                                            @endphp
                                             <tr class="border-1 border-dark">
-                                                <th colspan="4" class="text-end">Total</th>
-                                                <th class="text-end">{{number_format($sale->details->sum('amount'),2)}}</th>
+                                                <th colspan="3" class="text-end">Total</th>
+                                                <th class="text-end">{{number_format($sale->details->sum('price'),2)}}</th>
                                             </tr>
-                                            <tr class="m-0 p-0">
-                                                <th colspan="4" class="text-end p-0 m-0">Discount (-)</th>
-                                                <th class="text-end p-0 m-0 ">{{number_format($sale->discount,2)}}</th>
-                                            </tr>
-                                            <tr class="m-0 p-0">
-                                                <th colspan="4" class="text-end p-0 m-0">Delivery Charges (+)</th>
-                                                <th class="text-end p-0 m-0 ">{{number_format($sale->dc,2)}}</th>
-                                            </tr>
-                                            <tr class="m-0 p-0">
-                                                <th colspan="4" class="text-end p-0 m-0">Net Bill</th>
-                                                <th class="text-end p-0 m-0 border-2 border-start-0 border-end-0 border-dark">{{number_format($sale->total,2)}}</th>
-                                            </tr>
-                                            <tr class="m-0 p-0">
-                                                <th colspan="4" class="text-end p-0 m-0">Paid</th>
-                                                <th class="text-end p-0 m-0">{{number_format($paid,2)}}</th>
-                                            </tr>
-                                            <tr class="m-0 p-0">
-                                                <th colspan="4" class="text-end p-0 m-0">Due</th>
-                                                <th class="text-end p-0 m-0">{{number_format($due,2)}}</th>
-                                            </tr>
-                                            @if ($sale->customerID != 2)
-                                            <tr class="m-0 p-0">
-                                                <th colspan="4" class="text-end p-0 m-0">Previous Balance</th>
-                                                <th class="text-end p-0 m-0">{{number_format(spotBalanceBefore($sale->customerID, $sale->refID),2)}}</th>
-                                            </tr>
-                                            <tr class="m-0 p-0">
-                                                <th colspan="4" class="text-end p-0 m-0">Net Account Balance</th>
-                                                <th class="text-end p-0 m-0">{{number_format(spotBalance($sale->customerID, $sale->refID),2)}}</th>
-                                            </tr>
-                                            @endif
-
                                         </tfoot>
                                     </table><!--end table-->
                                 </div>

@@ -6,19 +6,17 @@ use App\Http\Middleware\confirmPassword;
 use App\Models\accounts;
 use App\Models\categories;
 use App\Models\products;
+use App\Models\purchase_details;
 use App\Models\sale_details;
 use App\Models\sale_payments;
 use App\Models\sales;
-use App\Models\salesman;
 use App\Models\stock;
 use App\Models\transactions;
-use App\Models\units;
 use App\Models\warehouses;
 use Pdf;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Spatie\Browsershot\Browsershot;
 use Illuminate\Routing\Controller;
 
 class SalesController extends Controller
@@ -43,12 +41,11 @@ class SalesController extends Controller
      */
     public function create()
     {
-        $products = products::orderby('name', 'asc')->get();
-        $warehouses = warehouses::all();
+        $products = purchase_details::with('product')->where('status', 'Available')->get();
         $customers = accounts::customer()->get();
         $accounts = accounts::business()->get();
         $cats = categories::orderBy('name', 'asc')->get();
-        return view('sales.create', compact('products', 'warehouses', 'customers', 'accounts', 'cats'));
+        return view('sales.create', compact('products', 'customers', 'accounts', 'cats'));
     }
 
     /**
@@ -71,8 +68,6 @@ class SalesController extends Controller
                   'customerID'      => $request->customerID,
                   'date'            => $request->date,
                   'notes'           => $request->notes,
-                  'discount'        => $request->discount,
-                  'dc'              => $request->dc,
                   'customerName'    => $request->customerName,
                   'refID'           => $ref,
                 ]
@@ -83,35 +78,31 @@ class SalesController extends Controller
             $total = 0;
             foreach($ids as $key => $id)
             {
-                if($request->amount[$key] > 0)
-                {
-                    $qty = $request->qty[$key];
+               
                 $price = $request->price[$key];
-                $total += $request->amount[$key];
+                $total += $price;
+                $purchase = purchase_details::find($id);
                 sale_details::create(
                     [
                         'salesID'       => $sale->id,
-                        'productID'     => $id,
+                        'productID'     => $purchase->productID,
+                        'purchaseID'    => $purchase->id,
                         'price'         => $price,
-                        'warehouseID'   => $request->warehouse[$key],
-                        'qty'           => $qty,
-                        'amount'        => $request->amount[$key],
+                        'imei'          => $request->imei[$key],
                         'date'          => $request->date,
                         'refID'         => $ref,
                     ]
                 );
-                createStock($id,0, $qty, $request->date, "Sold in Inv # $sale->id", $ref, $request->warehouse[$key]);
-                }
+                $purchase->update(
+                    [
+                        'status' => 'Sold'
+                    ]
+                );
 
             }
-
-            $discount = $request->discount;
-            $dc = $request->dc;
-            $net = ($total + $dc) - $discount;
-
             $sale->update(
                 [
-                    'total'   => $net,
+                    'total'   => $total,
                 ]
             );
 
@@ -122,20 +113,20 @@ class SalesController extends Controller
                         'salesID'       => $sale->id,
                         'accountID'     => $request->accountID,
                         'date'          => $request->date,
-                        'amount'        => $net,
+                        'amount'        => $total,
                         'notes'         => "Full Paid",
                         'refID'         => $ref,
                     ]
                 );
-                createTransaction($request->accountID, $request->date, $net, 0, "Payment of Inv No. $sale->id", $ref);
-                createTransaction($request->customerID, $request->date, $net, $net, "Payment of Inv No. $sale->id", $ref);
+                createTransaction($request->accountID, $request->date, $total, 0, "Payment of Inv No. $sale->id", $ref);
+                createTransaction($request->customerID, $request->date, $total, $total, "Payment of Inv No. $sale->id", $ref);
             }
             elseif($request->status == 'advanced')
             {
                 $balance = getAccountBalance($request->customerID);
-                if($net < $balance)
+                if($total < $balance)
                 {
-                    createTransaction($request->customerID, $request->date, $net, 0, "Pending Amount of Inv No. $sale->id", $ref);
+                    createTransaction($request->customerID, $request->date, $total, 0, "Pending Amount of Inv No. $sale->id", $ref);
                     DB::commit();
                     return back()->with('success', "Sale Created: Balance was not enough moved to unpaid / pending");
                 }
@@ -146,13 +137,13 @@ class SalesController extends Controller
                             'salesID'       => $sale->id,
                             'accountID'     => $request->accountID,
                             'date'          => $request->date,
-                            'amount'        => $net,
+                            'amount'        => $total,
                             'notes'         => "Full Paid",
                             'refID'         => $ref,
                         ]
                     );
 
-                    createTransaction($request->customerID, $request->date, $net, 0, "Inv No. $sale->id", $ref);
+                    createTransaction($request->customerID, $request->date, $total, 0, "Inv No. $sale->id", $ref);
                 }
 
             }
@@ -161,7 +152,7 @@ class SalesController extends Controller
                 $paid = $request->paid;
                 if($paid < 1)
                 {
-                    createTransaction($request->customerID, $request->date, $net, 0, "Pending Amount of Inv No. $sale->id", $ref);
+                    createTransaction($request->customerID, $request->date, $total, 0, "Pending Amount of Inv No. $sale->id", $ref);
                     DB::commit();
                     return back()->with('success', "Sale Created: Bill moved to unpaid / pending");
                 }
@@ -178,14 +169,14 @@ class SalesController extends Controller
                         ]
                     );
 
-                    createTransaction($request->customerID, $request->date, $net, $paid, "Partial Payment of Inv No. $sale->id", $ref);
+                    createTransaction($request->customerID, $request->date, $total, $paid, "Partial Payment of Inv No. $sale->id", $ref);
                     createTransaction($request->accountID, $request->date, $paid, 0, "Partial Payment of Inv No. $sale->id", $ref);
                 }
 
             }
             else
             {
-                createTransaction($request->customerID, $request->date, $net, 0, "Pending Amount of Inv No. $sale->id", $ref);
+                createTransaction($request->customerID, $request->date, $total, 0, "Pending Amount of Inv No. $sale->id", $ref);
             }
 
            DB::commit();
@@ -217,12 +208,11 @@ class SalesController extends Controller
 
     public function edit(sales $sale)
     {
-        $products = products::orderby('name', 'asc')->get();
-        $warehouses = warehouses::all();
+        $products =  purchase_details::with('product')->where('status', 'Available')->get();
         $customers = accounts::customer()->get();
         $accounts = accounts::business()->get();
         session()->forget('confirmed_password');
-        return view('sales.edit', compact('products', 'warehouses', 'customers', 'accounts', 'sale'));
+        return view('sales.edit', compact('products', 'customers', 'accounts', 'sale'));
     }
 
     /**
@@ -413,7 +403,7 @@ class SalesController extends Controller
 
     public function getSignleProduct($id)
     {
-        $product = products::with('unit')->find($id);
+        $product = purchase_details::with('product')->find($id);
         return $product;
     }
 }

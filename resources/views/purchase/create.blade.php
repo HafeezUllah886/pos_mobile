@@ -128,7 +128,7 @@
                                 <input type="text" name="name" required id="name" class="form-control">
                             </div>
                             <div class="form-group mt-2">
-                                <label for="catID">Category</label>
+                                <label for="catID">Brand</label>
                                <select name="catID" id="catID" class="form-control">
                                 @foreach ($cats as $cat)
                                     <option value="{{$cat->id}}">{{$cat->name}}</option>
@@ -215,9 +215,9 @@
         function updateTotal() {
             var total = 0;
             $(".price").each(function() {
-    var inputValue = $(this).val();
-    total += parseFloat(inputValue) || 0;
-});
+            var inputValue = $(this).val();
+            total += parseFloat(inputValue) || 0;
+            });
 
             $("#totalAmount").html(total.toFixed(2));
         }

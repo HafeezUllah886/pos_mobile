@@ -88,16 +88,11 @@ return [
     'locale' => env('APP_LOCALE', 'en'),
 
     'domains' => [
-        'deluxe.test',
-        'deluxe-s.test',
-        'deluxe.diamondquetta.com',
-        'testmillat.diamondquetta.com',
-        'deluxe.run',
+        'pos_mobile.test',
     ],
 
     'databases' => [
-        'deluxe',
-        'test',
+        'mobile_pos',
     ],
 
     'files' =>
