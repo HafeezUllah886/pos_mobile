@@ -20,7 +20,7 @@
                                 <div class="col-4"></div>
                                 <div class="col-4 text-center"><h2>SALES INVOICE</h2></div>
                             </div>
-                            <div class="card-body p-4 pb-0 pt-0">
+                            <div class="card-body p-4 pb-2 pt-0">
                                 <div class="row g-3">
                                     <div class="col-3">
                                         <p class="text-muted mb-2 text-uppercase fw-semibold">Inv #</p>
@@ -60,15 +60,23 @@
                                                 <td class="m-1 p-1 border-1 border-dark">{{$key+1}}</td>
                                                 <td class="text-start m-1 p-1 border-1 border-dark">{{$product->product->name}}</td>
                                                 <td class="text-end m-1 p-1 border-1 border-dark d-print-none">{{$product->imei}}</td>
-                                                <td class="text-end m-1 p-1 border-1 border-dark d-none d-print-block">{{masked($product->imei)}}</td>
+                                                <td class="text-end m-1 p-1 d-none d-print-block">{{masked($product->imei)}}</td>
                                                 <td class="text-end m-1 p-1 border-1 border-dark">{{number_format($product->price, 2)}}</td>
                                                </tr>
                                            @endforeach
                                         </tbody>
                                         <tfoot style="font-weight: bolder">
                                             <tr class="border-1 border-dark">
-                                                <th colspan="3" class="text-end">Total</th>
-                                                <th class="text-end">{{number_format($sale->details->sum('price'),2)}}</th>
+                                                <th colspan="3" class="text-end m-1 p-1">Total Bill</th>
+                                                <th class="text-end m-1 p-1">{{number_format($sale->details->sum('price'),2)}}</th>
+                                            </tr>
+                                            <tr class="border-1 border-dark">
+                                                <th colspan="3" class="text-end m-1 p-1">Paid</th>
+                                                <th class="text-end m-1 p-1">{{number_format($sale->payments->sum('amount'),2)}}</th>
+                                            </tr>
+                                            <tr class="border-1 border-dark">
+                                                <th colspan="3" class="text-end m-1 p-1">Due</th>
+                                                <th class="text-end m-1 p-1">{{number_format($sale->details->sum('price') - $sale->payments->sum('amount'),2)}}</th>
                                             </tr>
                                         </tfoot>
                                     </table><!--end table-->

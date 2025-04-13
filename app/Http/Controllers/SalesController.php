@@ -121,32 +121,6 @@ class SalesController extends Controller
                 createTransaction($request->accountID, $request->date, $total, 0, "Payment of Inv No. $sale->id", $ref);
                 createTransaction($request->customerID, $request->date, $total, $total, "Payment of Inv No. $sale->id", $ref);
             }
-            elseif($request->status == 'advanced')
-            {
-                $balance = getAccountBalance($request->customerID);
-                if($total < $balance)
-                {
-                    createTransaction($request->customerID, $request->date, $total, 0, "Pending Amount of Inv No. $sale->id", $ref);
-                    DB::commit();
-                    return back()->with('success', "Sale Created: Balance was not enough moved to unpaid / pending");
-                }
-                else
-                {
-                    sale_payments::create(
-                        [
-                            'salesID'       => $sale->id,
-                            'accountID'     => $request->accountID,
-                            'date'          => $request->date,
-                            'amount'        => $total,
-                            'notes'         => "Full Paid",
-                            'refID'         => $ref,
-                        ]
-                    );
-
-                    createTransaction($request->customerID, $request->date, $total, 0, "Inv No. $sale->id", $ref);
-                }
-
-            }
             elseif($request->status == 'partial')
             {
                 $paid = $request->paid;
@@ -232,19 +206,19 @@ class SalesController extends Controller
             }
             foreach($sale->details as $product)
             {
-                stock::where('refID', $product->refID)->delete();
+                $purchase = purchase_details::find($product->purchaseID);
+                $purchase->status = 'Available';
+                $purchase->update();
                 $product->delete();
             }
             transactions::where('refID', $sale->refID)->delete();
             $ref = $sale->refID;
             $sale->update(
                 [
-                    'customerID'  => $request->customerID,
+                  'customerID'  => $request->customerID,
                   'date'        => $request->date,
                   'notes'       => $request->notes,
-                  'discount'    => $request->discount,
                   'customerName'=> $request->customerName,
-                  'dc'          => $request->dc,
                   ]
             );
 
@@ -253,38 +227,34 @@ class SalesController extends Controller
             $total = 0;
             foreach($ids as $key => $id)
             {
-                if($request->amount[$key] > 0)
-                {
-                    $qty = $request->qty[$key];
+               
                 $price = $request->price[$key];
-                $total += $request->amount[$key];
+                $total += $price;
+                $purchase = purchase_details::find($id);
                 sale_details::create(
                     [
                         'salesID'       => $sale->id,
-                        'productID'     => $id,
+                        'productID'     => $purchase->productID,
+                        'purchaseID'    => $purchase->id,
                         'price'         => $price,
-                        'warehouseID'   => $request->warehouse[$key],
-                        'qty'           => $qty,
-                        'amount'        => $request->amount[$key],
-
+                        'imei'          => $request->imei[$key],
                         'date'          => $request->date,
                         'refID'         => $ref,
                     ]
                 );
-                createStock($id,0, $qty, $request->date, "Sold in Inv # $sale->id", $ref, $request->warehouse[$key]);
-                }
-            }
+                $purchase->update(
+                    [
+                        'status' => 'Sold'
+                    ]
+                );
 
-            $discount = $request->discount;
-            $dc = $request->dc;
-            $net = ($total + $dc) - $discount;
+            }
 
             $sale->update(
                 [
-                    'total'   => $net,
+                    'total'   => $total,
                 ]
             );
-
             if($request->status == 'paid')
             {
                 sale_payments::create(
@@ -292,46 +262,20 @@ class SalesController extends Controller
                         'salesID'       => $sale->id,
                         'accountID'     => $request->accountID,
                         'date'          => $request->date,
-                        'amount'        => $net,
+                        'amount'        => $total,
                         'notes'         => "Full Paid",
                         'refID'         => $ref,
                     ]
                 );
-                createTransaction($request->accountID, $request->date, $net, 0, "Payment of Inv No. $sale->id", $ref);
-                createTransaction($request->customerID, $request->date, $net, $net, "Payment of Inv No. $sale->id", $ref);
-            }
-            elseif($request->status == 'advanced')
-            {
-                $balance = getAccountBalance($request->customerID);
-                if($net < $balance)
-                {
-                    createTransaction($request->customerID, $request->date, $net, 0, "Pending Amount of Inv No. $sale->id", $ref);
-                    DB::commit();
-                    return back()->with('success', "Sale Created: Balance was not enough moved to unpaid / pending");
-                }
-                else
-                {
-                    sale_payments::create(
-                        [
-                            'salesID'       => $sale->id,
-                            'accountID'     => $request->accountID,
-                            'date'          => $request->date,
-                            'amount'        => $net,
-                            'notes'         => "Full Paid",
-                            'refID'         => $ref,
-                        ]
-                    );
-
-                    createTransaction($request->customerID, $request->date, $net, 0, "Inv No. $sale->id", $ref);
-                }
-
+                createTransaction($request->accountID, $request->date, $total, 0, "Payment of Inv No. $sale->id", $ref);
+                createTransaction($request->customerID, $request->date, $total, $total, "Payment of Inv No. $sale->id", $ref);
             }
             elseif($request->status == 'partial')
             {
                 $paid = $request->paid;
                 if($paid < 1)
                 {
-                    createTransaction($request->customerID, $request->date, $net, 0, "Pending Amount of Inv No. $sale->id", $ref);
+                    createTransaction($request->customerID, $request->date, $total, 0, "Pending Amount of Inv No. $sale->id", $ref);
                     DB::commit();
                     return back()->with('success', "Sale Created: Bill moved to unpaid / pending");
                 }
@@ -348,14 +292,13 @@ class SalesController extends Controller
                         ]
                     );
 
-                    createTransaction($request->customerID, $request->date, $net, $paid, "Partial Payment of Inv No. $sale->id", $ref);
+                    createTransaction($request->customerID, $request->date, $total, $paid, "Partial Payment of Inv No. $sale->id", $ref);
                     createTransaction($request->accountID, $request->date, $paid, 0, "Partial Payment of Inv No. $sale->id", $ref);
                 }
-
             }
             else
             {
-                createTransaction($request->customerID, $request->date, $net, 0, "Pending Amount of Inv No. $sale->id", $ref);
+                createTransaction($request->customerID, $request->date, $total, 0, "Pending Amount of Inv No. $sale->id", $ref);
             }
 
             DB::commit();
@@ -384,7 +327,9 @@ class SalesController extends Controller
             }
             foreach($sale->details as $product)
             {
-                stock::where('refID', $product->refID)->delete();
+                $purchase = purchase_details::find($product->purchaseID);
+                $purchase->status = 'Available';
+                $purchase->update();
                 $product->delete();
             }
             transactions::where('refID', $sale->refID)->delete();

@@ -86,7 +86,6 @@
                                 <div class="form-group">
                                     <label for="status">Payment Status</label>
                                     <select name="status" id="status1" class="form-control">
-                                        <option disabled value="advanced">Paid in Advance</option>
                                         <option value="paid">Paid</option>
                                         <option disabled value="pending">Pending</option>
                                         <option disabled value="partial">Partial Payment</option>

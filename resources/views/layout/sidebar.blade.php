@@ -121,19 +121,10 @@
                     <div class="collapse menu-dropdown" id="stock">
                         <ul class="nav nav-sm flex-column">
                             <li class="nav-item">
-                                <a href="{{ route('product_stock.index', ['zero' => 'not_allowed']) }}" class="nav-link" data-key="t-chat">Stock</a>
+                                <a href="{{ route('product_stock.index', ['status' => 'Available']) }}" class="nav-link" data-key="t-chat">Available Stock</a>
                             </li>
                             <li class="nav-item">
-                                <a href="{{ route('product_stock.index', ['zero' => 'allowed']) }}" class="nav-link" data-key="t-chat">Stock with Zero</a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="{{ route('product_stock.index', ['zero' => 'above_zero']) }}" class="nav-link" data-key="t-chat">Stock Above Zero</a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="{{ route('product_stock.index', ['zero' => 'below_zero']) }}" class="nav-link" data-key="t-chat">Stock Below Zero</a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="{{ route('stockTransfer.index') }}" class="nav-link" data-key="t-chat">Stock Transfer</a>
+                                <a href="{{ route('product_stock.index', ['status' => 'Sold']) }}" class="nav-link" data-key="t-chat">Sold Stock</a>
                             </li>
                         </ul>
                     </div>
@@ -203,7 +194,7 @@
                         </ul>
                     </div>
                 </li>
-                <li class="nav-item">
+               {{--  <li class="nav-item">
                     <a class="nav-link menu-link" href="#sidebarReports" data-bs-toggle="collapse" role="button"
                         aria-expanded="false" aria-controls="sidebarReports">
                         <i class="ri-file-list-3-line"></i> <span data-key="t-forms">Reports</span>
@@ -224,26 +215,13 @@
                             </li>
                         </ul>
                     </div>
-                </li>
+                </li> --}}
                 <li class="nav-item">
                     <a class="nav-link menu-link" href="{{route('todos.index')}}">
                         <i class="ri-apps-2-line"></i> <span data-key="t-apps">Todos</span>
                     </a>
                 </li>
-               {{--  <li class="nav-item">
-                    <a class="nav-link menu-link" href="#warehouses" data-bs-toggle="collapse" role="button"
-                        aria-expanded="false" aria-controls="sidebarApps">
-                        <i class="ri-apps-2-line"></i> <span data-key="t-apps">Warehouses</span>
-                    </a>
-                    <div class="collapse menu-dropdown" id="warehouses">
-                        <ul class="nav nav-sm flex-column">
-                            <li class="nav-item">
-                                <a href="{{ route('warehouses.index') }}" class="nav-link" data-key="t-chat">Warehouses
-                                    List </a>
-                            </li>
-                        </ul>
-                    </div>
-                </li> --}}
+              
             </ul>
         </div>
         <!-- Sidebar -->

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\products;
+use App\Models\purchase_details;
 use App\Models\stock;
 use App\Models\units;
 use App\Models\warehouses;
@@ -13,11 +14,11 @@ class StockController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(request $request)
     {
-        $products = products::all();
-        $warehouses = warehouses::all();
-        return view('stock.index', compact('products', 'warehouses'));
+        $status = $request->status;
+        $products = purchase_details::with('product')->where('status', $status)->get();
+        return view('stock.index', compact('products','status'));
     }
 
     /**
