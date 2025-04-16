@@ -78,7 +78,7 @@
                         </ul>
                     </div>
                 </li>
-                <li class="nav-item">
+                {{-- <li class="nav-item">
                     <a class="nav-link menu-link" href="#quot" data-bs-toggle="collapse" role="button"
                         aria-expanded="false" aria-controls="sidebarApps">
                         <i class="ri-shopping-cart-fill"></i><span data-key="t-apps">Quotation</span>
@@ -94,7 +94,7 @@
                             </li>
                         </ul>
                     </div>
-                </li>
+                </li> --}}
                 <li class="nav-item">
                     <a class="nav-link menu-link" href="#purchase" data-bs-toggle="collapse" role="button"
                         aria-expanded="false" aria-controls="sidebarApps">
