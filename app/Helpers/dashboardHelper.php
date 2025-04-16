@@ -4,18 +4,18 @@ use App\Models\accounts;
 use App\Models\purchase;
 use App\Models\purchase_details;
 use App\Models\sale_details;
+use App\Models\sales;
 use Illuminate\Support\Facades\DB;
 
 function totalSales()
 {
-    return sale_details::sum('price');
+    return sales::sum('total');
 }
 
 function totalPurchases()
 {
-   return purchase_details::sum('price');
+   return purchase::sum('total');
 }
-
 
 function myBalance()
 {
