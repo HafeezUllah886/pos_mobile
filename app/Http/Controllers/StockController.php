@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\products;
 use App\Models\purchase_details;
+use App\Models\sale_details;
+use App\Models\sales;
 use App\Models\stock;
 use App\Models\units;
 use App\Models\warehouses;
@@ -18,6 +20,18 @@ class StockController extends Controller
     {
         $status = $request->status;
         $products = purchase_details::with('product')->where('status', $status)->get();
+        foreach($products as $product)
+        {
+            if($product->status == "Available")
+            {
+                $product->person = $product->purchase->vendor->title;
+            }
+            else
+            {
+                $sale = sales::find($product->saleID);
+                $product->person = $sale->customer->title;
+            }
+        }
         return view('stock.index', compact('products','status'));
     }
 

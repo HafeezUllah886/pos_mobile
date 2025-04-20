@@ -20,4 +20,9 @@ class purchase_details extends Model
         return $this->belongsTo(warehouses::class, 'warehouseID');
     }
 
+    public function purchase()
+    {
+        return $this->belongsTo(purchase::class, 'purchaseID');
+    }
+
 }

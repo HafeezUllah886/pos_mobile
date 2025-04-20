@@ -95,10 +95,10 @@ class SalesController extends Controller
                 );
                 $purchase->update(
                     [
-                        'status' => 'Sold'
+                        'status' => 'Sold',
+                        'saleID' => $sale->id,
                     ]
                 );
-
             }
             $sale->update(
                 [
@@ -244,7 +244,8 @@ class SalesController extends Controller
                 );
                 $purchase->update(
                     [
-                        'status' => 'Sold'
+                        'status' => 'Sold',
+                        'saleID' => $sale->id,
                     ]
                 );
 

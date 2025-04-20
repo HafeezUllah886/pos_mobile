@@ -13,6 +13,7 @@
                             <th>Product</th>
                             <th>Brand</th>
                             <th>IMEI</th>
+                            <th>{{$status == "Available" ? "Purchased From" : "Sold To"}}</th>
                         </thead>
                         <tbody>
                             @foreach ($products as $key => $product)
@@ -24,6 +25,7 @@
                                 <td>{{ $product->product->name }}</td>
                                 <td>{{ $product->product->category->name }}</td>
                                 <td>{{ $product->imei }}</td>
+                                <td>{{ $product->person }}</td>
                             </tr>
                             @endforeach
                         </tbody>

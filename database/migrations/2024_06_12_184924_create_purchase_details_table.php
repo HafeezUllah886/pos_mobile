@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('purchase_details', function (Blueprint $table) {
             $table->id();
             $table->foreignId('purchaseID')->constrained('purchases', 'id');
+            $table->integer('saleID')->nullable();
             $table->foreignId('productID')->constrained('products', 'id');
             $table->float('price', 10);
             $table->text('imei');

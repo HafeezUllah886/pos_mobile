@@ -2309,6 +2309,7 @@ namespace App\Models {
      * @property int $id
      * @property-read \App\Models\products $product
      * @property-read \App\Models\warehouses $warehouse
+     * @property-read \App\Models\purchase $purchase
      * @method static \Illuminate\Database\Eloquent\Builder<purchase_details>|purchase_details whereId($value)
      * @method static \Illuminate\Database\Eloquent\Builder<purchase_details>|purchase_details wherePurchaseid($value)
      * @method static \Illuminate\Database\Eloquent\Builder<purchase_details>|purchase_details whereProductid($value)
@@ -3578,6 +3579,7 @@ namespace App\Models {
      * @property int $salesID
      * @property int $id
      * @property-read \App\Models\products $product
+     * @property-read \App\Models\sales $sale
      * @method static \Illuminate\Database\Eloquent\Builder<sale_details>|sale_details whereId($value)
      * @method static \Illuminate\Database\Eloquent\Builder<sale_details>|sale_details whereSalesid($value)
      * @method static \Illuminate\Database\Eloquent\Builder<sale_details>|sale_details whereProductid($value)
