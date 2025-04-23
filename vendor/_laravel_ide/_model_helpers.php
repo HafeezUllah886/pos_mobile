@@ -2305,6 +2305,7 @@ namespace App\Models {
      * @property string $imei
      * @property mixed $price
      * @property int $productID
+     * @property int|null $saleID
      * @property int $purchaseID
      * @property int $id
      * @property-read \App\Models\products $product
@@ -2312,6 +2313,7 @@ namespace App\Models {
      * @property-read \App\Models\purchase $purchase
      * @method static \Illuminate\Database\Eloquent\Builder<purchase_details>|purchase_details whereId($value)
      * @method static \Illuminate\Database\Eloquent\Builder<purchase_details>|purchase_details wherePurchaseid($value)
+     * @method static \Illuminate\Database\Eloquent\Builder<purchase_details>|purchase_details whereSaleid($value)
      * @method static \Illuminate\Database\Eloquent\Builder<purchase_details>|purchase_details whereProductid($value)
      * @method static \Illuminate\Database\Eloquent\Builder<purchase_details>|purchase_details wherePrice($value)
      * @method static \Illuminate\Database\Eloquent\Builder<purchase_details>|purchase_details whereImei($value)
