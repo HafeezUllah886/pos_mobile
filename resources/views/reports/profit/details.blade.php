@@ -55,7 +55,6 @@
                                                 <th scope="col" class="text-end">Avg Purchase Rate</th>
                                                 <th scope="col" class="text-end">Avg Sale Price</th>
                                                 <th scope="col" class="text-end">Sold Qty</th>
-                                                <th scope="col" class="text-end">Profit / Unit</th>
                                                 <th scope="col" class="text-end">Profit</th>
                                                 <th scope="col" class="text-end">Stock</th>
                                                 <th scope="col" class="text-end">Stock Value</th>
@@ -75,7 +74,6 @@
                                                 <td class="text-end">{{ number_format($item['purchaseRate'],2) }}</td>
                                                 <td class="text-end">{{ number_format($item['saleRate'],2) }}</td>
                                                 <td class="text-end">{{ number_format($item['sold'],2) }}</td>
-                                                <td class="text-end">{{ number_format($item['ppu'],2) }}</td>
                                                 <td class="text-end">{{ number_format($item['profit'],2) }}</td>
                                                 <td class="text-end">{{ number_format($item['stock'],2) }}</td>
                                                 <td class="text-end">{{ number_format($item['stockValue'],2) }}</td>
@@ -84,15 +82,15 @@
                                         </tbody>
                                         <tfoot>
                                             <tr>
-                                                <th colspan="8" class="text-end">Total</th>
+                                                <th colspan="6" class="text-end">Total</th>
                                                 <th class="text-end">{{number_format($total, 2)}}</th>
                                             </tr>
                                             <tr>
-                                                <th colspan="8" class="text-end">Expense</th>
+                                                <th colspan="6" class="text-end">Expense</th>
                                                 <th class="text-end">{{number_format($expenses, 2)}}</th>
                                             </tr>
                                             <tr>
-                                                <th colspan="8" class="text-end">Net Profit</th>
+                                                <th colspan="6" class="text-end">Net Profit</th>
                                                 <th class="text-end">{{number_format($total - $expenses, 2)}}</th>
                                             </tr>
                                         </tfoot>

@@ -4,7 +4,7 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-header d-flex justify-content-between">
-                    <h3>{{$status}} Stock </h3>
+                    <h3>Stock By Product</h3>
                 </div>
                 <div class="card-body">
                     <table class="table" id="buttons-datatables">
@@ -12,25 +12,27 @@
                             <th>#</th>
                             <th>Product</th>
                             <th>Brand</th>
-                            <th>IMEI</th>
-                            <th>{{$status == "Available" ? "Purchased From" : "Sold To"}}</th>
-                            <th>Price</th>
+                            <th>Stock</th>
+                            <th>Stock Value</th>
                         </thead>
                         <tbody>
                             @foreach ($products as $key => $product)
-                                @php
-                                    $stock = getStock($product->id);
-                                @endphp
                              <tr>
                                 <td>{{ $key + 1 }}</td>
-                                <td>{{ $product->product->name }}</td>
-                                <td>{{ $product->product->category->name }}</td>
-                                <td>{{ $product->imei }}</td>
-                                <td>{{ $product->person }}</td>
-                                <td>{{ number_format($product->price) }}</td>
+                                <td>{{ $product->name }}</td>
+                                <td>{{ $product->category->name }}</td>
+                                <td>{{ $product->stock }}</td>
+                                <td>{{ number_format($product->value) }}</td>
                             </tr>
                             @endforeach
                         </tbody>
+                        <tfoot>
+                            <tr>
+                                <td class="text-end" colspan="3">Total</td>
+                                <td>{{ number_format($products->sum('stock')) }}</td>
+                                <td>{{ number_format($products->sum('value')) }}</td>
+                            </tr>
+                        </tfoot>
                     </table>
                 </div>
             </div>

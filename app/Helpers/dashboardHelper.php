@@ -9,12 +9,19 @@ use Illuminate\Support\Facades\DB;
 
 function totalSales()
 {
-    return sales::sum('total');
+    return sale_details::whereDate('date', now())->sum('price');
 }
 
 function totalPurchases()
 {
-   return purchase::sum('total');
+   return purchase_details::whereDate('date', now())->sum('price');
+}
+
+function totalStock()
+{
+    $stock = purchase_details::where('status', 'Available')->count();
+   
+    return $stock;
 }
 
 function myBalance()

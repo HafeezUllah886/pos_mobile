@@ -25,11 +25,14 @@ class StockController extends Controller
             if($product->status == "Available")
             {
                 $product->person = $product->purchase->vendor->title;
+                $product->price = $product->price;
             }
             else
             {
                 $sale = sales::find($product->saleID);
+                $sale_details = sale_details::where('salesID', $sale->id)->where('imei', $product->imei)->first();
                 $product->person = $sale->customer->title;
+                $product->price = $sale_details->price;
             }
         }
         return view('stock.index', compact('products','status'));
@@ -54,36 +57,16 @@ class StockController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show($id, $warehouse, $from, $to)
+    public function show()
     {
-        $product = products::find($id);
-
-        if($warehouse == 'all')
+        $products = products::all();
+        foreach($products as $product)
         {
-            $stocks = stock::where('productID', $id)->whereBetween('date', [$from, $to])->get();
-
-            $pre_cr = stock::where('productID', $id)->whereDate('date', '<', $from)->sum('cr');
-            $pre_db = stock::where('productID', $id)->whereDate('date', '<', $from)->sum('db');
-
-            $cur_cr = stock::where('productID', $id)->sum('cr');
-            $cur_db = stock::where('productID', $id)->sum('db');
+            $purchases = purchase_details::where('productID', $product->id)->where('status', 'Available');
+            $product->stock = $purchases->count();
+            $product->value = $purchases->sum('price');
         }
-        else
-        {
-            $stocks = stock::where('productID', $id)->whereBetween('date', [$from, $to])->where('warehouseID', $warehouse)->get();
-
-            $pre_cr = stock::where('productID', $id)->whereDate('date', '<', $from)->where('warehouseID', $warehouse)->sum('cr');
-            $pre_db = stock::where('productID', $id)->whereDate('date', '<', $from)->where('warehouseID', $warehouse)->sum('db');
-
-            $cur_cr = stock::where('productID', $id)->where('warehouseID', $warehouse)->sum('cr');
-            $cur_db = stock::where('productID', $id)->where('warehouseID', $warehouse)->sum('db');
-        }
-
-
-        $pre_balance = $pre_cr - $pre_db;
-        $cur_balance = $cur_cr - $cur_db;
-
-        return view('stock.details', compact('product', 'pre_balance', 'cur_balance', 'stocks', 'from', 'to'));
+        return view('stock.by_product', compact('products'));
     }
     /**
      * Show the form for editing the specified resource.
