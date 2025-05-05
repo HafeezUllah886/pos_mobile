@@ -75,6 +75,19 @@
                             </div>
                         </div>
                     </div><!-- end col -->
+                    <div class="col">
+                        <div class="mt-3 mt-lg-0 py-4 px-3">
+                            <h5 class="text-muted text-uppercase fs-13">Daily Profit / Loss</h5>
+                            <div class="d-flex align-items-center">
+                                {{-- <div class="flex-shrink-0">
+                                    <i class="ri-service-line display-6 text-muted cfs-22"></i>
+                                </div> --}}
+                                <div class="flex-grow-1 ms-3">
+                                    <h2 class="mb-0 cfs-22">{{number_format(dailyProfit(), 0)}}</h2>
+                                </div>
+                            </div>
+                        </div>
+                    </div><!-- end col -->
                     {{-- <div class="col">
                         <div class="mt-3 mt-lg-0 py-4 px-3">
                             <h5 class="text-muted text-uppercase fs-13">Stock Value</h5>
@@ -92,14 +105,14 @@
     </div><!-- end col -->
 </div><!-- end row -->
 
-<div class="row">
+{{-- <div class="row">
     <div class="col-xl-6">
         <div class="card">
             <div class="card-header align-items-center d-flex">
                 <h4 class="card-title mb-0 flex-grow-1">Best Selling Products</h4>
                 <div class="flex-shrink-0">
                 </div>
-            </div><!-- end card header -->
+            </div>
 
             <div class="card-body">
                 <div class="table-responsive table-card">
@@ -143,7 +156,7 @@
         <div class="card card-height-100">
             <div class="card-header align-items-center d-flex">
                 <h4 class="card-title mb-0 flex-grow-1">Top Customers</h4>
-            </div><!-- end card header -->
+            </div>
 
             <div class="card-body">
                 <div class="table-responsive table-card">
@@ -165,21 +178,21 @@
                                 <h5 class="fs-14 my-1 fw-normal">{{number_format($customer['balance'])}}</h5>
                                 <span class="text-muted">Current Balance</span>
                             </td>
-                        </tr><!-- end -->
+                        </tr>
                            @endforeach
                         </tbody>
-                    </table><!-- end table -->
+                    </table>
                 </div>
 
-            </div> <!-- .card-body-->
-        </div> <!-- .card-->
-    </div> <!-- .col-->
-</div> <!-- end row-->
+            </div>
+        </div>
+    </div>
+</div> --}}
 @endsection
 @section('page-css')
 
 @endsection
-@section('page-js')
+{{-- @section('page-js')
        <script src="{{ asset('assets/libs/apexcharts/apexcharts.min.js') }}"></script>
        <script src="{{asset('assets/js/pages/dashboard-ecommerce.init.js')}}"></script>
        <script>
@@ -235,4 +248,4 @@
       
        </script>
 @endsection
-
+ --}}

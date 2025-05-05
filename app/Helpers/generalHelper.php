@@ -76,7 +76,8 @@ function avgSalePrice($from, $to, $id)
     }
     else
     {
-        $sale_price = 0;
+        $sale = sale_details::where('productID', $id)->latest()->first();
+        $sale_price = $sale->price ?? 0;
     }
 
     return $sale_price;
@@ -98,7 +99,8 @@ function avgPurchasePrice($from, $to, $id)
     }
     else
     {
-        $purchase_price = 0;
+        $purchase = purchase_details::where('productID', $id)->latest()->first();
+        $purchase_price = $purchase->price ?? 0;
     }
 
     return $purchase_price;

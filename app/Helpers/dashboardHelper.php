@@ -1,6 +1,8 @@
 <?php
 
 use App\Models\accounts;
+use App\Models\expenses;
+use App\Models\products;
 use App\Models\purchase;
 use App\Models\purchase_details;
 use App\Models\sale_details;
@@ -81,4 +83,33 @@ function vendorBalance()
     }
 
     return $balance;
+}
+
+
+function dailyProfit()
+{
+
+    $from = date("Y-m-d");
+    $to = date("Y-m-d");
+    $products = products::all();
+    $profit = 0;
+    foreach($products as $product)
+    {
+
+        $purchaseRate = avgPurchasePrice($from, $to, $product->id);
+        $saleRate = avgSalePrice($from, $to, $product->id);
+        $purchased = purchase_details::where('productID', $product->id)->whereBetween('date', [$from, $to])->count();
+        $sold = sale_details::where('productID', $product->id)->whereBetween('date', [$from, $to])->count();
+        $sales = sale_details::where('productID', $product->id)->whereBetween('date', [$from, $to])->pluck('imei')->toArray();
+        $sales_amount = sale_details::where('productID', $product->id)->whereBetween('date', [$from, $to])->sum('price');
+        $purchase_amount = purchase_details::where('productID', $product->id)->whereIn('imei', $sales)->sum('price');
+        $stock = purchase_details::where('productID', $product->id)->where('status', 'Available')->count();
+
+        $profit += $sales_amount - $purchase_amount;
+        
+    }
+
+    $expenses = expenses::whereBetween('date', [$from, $to])->sum('amount');
+
+    return $profit - $expenses;
 }

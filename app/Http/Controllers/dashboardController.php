@@ -17,11 +17,7 @@ class dashboardController extends Controller
     public function index()
     {
 
-
-
-            /// Top five products
-
-            $topProducts = products::withCount('saleDetails')
+            /* $topProducts = products::withCount('saleDetails')
             ->withSum('saleDetails', 'price')
             ->orderByDesc('sale_details_count')
             ->take(5)
@@ -57,10 +53,10 @@ class dashboardController extends Controller
                     $topCustomersArray [] = ['name' => $customer->title, 'purchases' => $customer_purchases, 'balance' => $balance];
                 }
 
-            }
+            } */
 
 
 
-        return view('dashboard.index', compact('topProductsArray', 'topCustomersArray'));
+        return view('dashboard.index');
     }
 }
